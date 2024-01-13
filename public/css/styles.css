@@ -7,7 +7,6 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  background-color: #FFE000;
   
 }
 
@@ -31,7 +30,7 @@ body > .container {
 }
 
 .rounded-symbol {
-  border-radius: 50%!important;
+  border-radius: 40%!important;
   background-color: #FFE000;
   padding:4px;
 }
@@ -43,3 +42,5 @@ code {
 .card-text {
   font-family: 'Consolas', 'Courier New', Courier, monospace
 }
+
+

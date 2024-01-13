@@ -1,10 +1,15 @@
 <h1>Create snippet</h1>
 <form class="row g-3" method="post" action="/snippets/create">
   <div class="col-md-12">
+    <label class="form-label" for="titleInput">
+        Title
+      </label>
+      <input type="text" class="form-control" id="titleInput" name="title" placeholder="Snippet title" required />
+    </div>
     <label class="form-label" for="descriptionInput">
-      Description
+      code
     </label>
-    <textarea class="form-control" id="descriptionInput" name="description" placeholder="Enter your snippet here" required="required" autofocus="autofocus"></textarea>
+    <textarea class="form-control" id="descriptionInput" name="code" placeholder="Enter your snippet here" required="required" autofocus="autofocus"></textarea>
   </div>
   <div class="col-12">
     <button type="submit" class="btn btn-primary">Create</button>

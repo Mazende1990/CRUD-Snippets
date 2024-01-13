@@ -3,7 +3,13 @@ import { BASE_SCHEMA } from './baseSchema.js'
 
 // Create a schema.
 const schema = new mongoose.Schema({
-  description: {
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1
+  },
+  code: {
     type: String,
     required: true,
     trim: true,

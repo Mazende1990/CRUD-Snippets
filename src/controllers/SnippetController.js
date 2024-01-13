@@ -63,16 +63,16 @@ export class SnippetController {
    */
   async createPost (req, res) {
     try {
-      const { description } = req.body
+      const { title, code } = req.body
 
       await SnippetSchema.create({
-        description
+        title, code
       })
 
       req.session.flash = { type: 'success', text: 'The snippet was created successfully.' }
       res.redirect('.')
     } catch (error) {
-      //req.session.flash = { type: 'danger', text: error.message }
+      // req.session.flash = { type: 'danger', text: error.message }
       res.redirect('./create')
     }
   }
