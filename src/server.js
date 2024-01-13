@@ -10,11 +10,12 @@ import express from 'express'
 // import logger from 'morgan'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-// import { connectToDatabase } from './config/mongoose.js'
+import { connectToDatabase } from './config/mongoose.js'
+import { router } from './routes/router.js'
 
 try {
   // Connect to MongoDB.
-  // await connectToDatabase(process.env.DB_CONNECTION_STRING)
+  await connectToDatabase(process.env.DB_CONNECTION_STRING)
 
   // Creates an Express application.
   const app = express()
@@ -55,10 +56,10 @@ try {
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
     // Flash messages - survives only a round trip.
-    if (req.session.flash) {
-      res.locals.flash = req.session.flash
-      delete req.session.flash
-    }
+    // if (req.session.flash) {
+    //   res.locals.flash = req.session.flash
+    //   delete req.session.flash
+    // }
 
     // Pass the base URL to the views.
     res.locals.baseURL = baseURL
@@ -67,7 +68,7 @@ try {
   })
 
   // Register routes.
-  // app.use('/', router)
+  app.use('/', router)
 
   // Error handler.
   app.use((err, req, res, next) => {
