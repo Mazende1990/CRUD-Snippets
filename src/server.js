@@ -5,9 +5,9 @@
  */
 
 import express from 'express'
-// import expressLayouts from 'express-ejs-layouts'
+import expressLayouts from 'express-ejs-layouts'
 // import session from 'express-session'
-// import logger from 'morgan'
+import logger from 'morgan'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { connectToDatabase } from './config/mongoose.js'
@@ -30,7 +30,7 @@ try {
   console.log('Server is responding')
 
   // Set up a morgan logger using the dev format for log entries.
-  // app.use(logger('dev'))
+  app.use(logger('dev'))
 
   // View engine setup.
   app.set('view engine', 'ejs')
@@ -38,7 +38,7 @@ try {
   app.set('layout', join(directoryFullName, 'views', 'layouts', 'default'))
   app.set('layout extractScripts', true)
   app.set('layout extractStyles', true)
-  // app.use(expressLayouts)
+  app.use(expressLayouts)
 
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
