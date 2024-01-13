@@ -14,4 +14,4 @@ const schema = new mongoose.Schema({
 schema.add(BASE_SCHEMA)
 
 // Create a model using the schema.
-export const SnippetSchema = mongoose.model('Task', schema)
+export const SnippetSchema = mongoose.model('Snippet', schema)

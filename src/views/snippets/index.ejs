@@ -1,1 +1,29 @@
 <h1>Snippets</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (viewData?.snippets.length) { %>
+    <% for (const snippet of viewData.snippets) { %>
+    <tr>
+      <td>
+        <%= snippet.description %>
+      </td>
+      <td class="text-nowrap">
+        <a href="/snippets/<%= snippet.id %>/update">Update</a>
+        <a href="/snippets/<%= snippet.id %>/delete">Delete</a>
+      </td>
+    </tr>
+    <% } %>
+    <% } else { %>
+    <tr>
+      <td colspan="3" class="text-center text-danger">
+        There are no tasks to display
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
