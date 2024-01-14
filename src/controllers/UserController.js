@@ -52,10 +52,14 @@ export class UserController {
    */
   async loginPost (req, res) {
     const user = await UserSchema.authenticate(req.body.username, req.body.password)
-    
-    req.session.username = user.username
-    req.session.password = user.password
 
-    res.redirect('.')
+    req.session.username = user.username
+
+    res.redirect('./profile')
   }
+
+  async profile (req, res) {
+    res.render('users/profile', { username: req.session.username })
+  }
+
 }
