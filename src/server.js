@@ -6,11 +6,12 @@
 
 import express from 'express'
 import expressLayouts from 'express-ejs-layouts'
-// import session from 'express-session'
+import session from 'express-session'
 import logger from 'morgan'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { connectToDatabase } from './config/mongoose.js'
+import { sessionOptions } from './config/sessionOptions.js'
 import { router } from './routes/router.js'
 
 try {
@@ -51,15 +52,15 @@ try {
   if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1) // trust first proxy
   }
-  // app.use(session(sessionOptions))
+  app.use(session(sessionOptions))
 
   // Middleware to be executed before the routes.
   app.use((req, res, next) => {
     // Flash messages - survives only a round trip.
-    // if (req.session.flash) {
-    //   res.locals.flash = req.session.flash
-    //   delete req.session.flash
-    // }
+    if (req.session.flash) {
+      res.locals.flash = req.session.flash
+      delete req.session.flash
+    }
 
     // Pass the base URL to the views.
     res.locals.baseURL = baseURL

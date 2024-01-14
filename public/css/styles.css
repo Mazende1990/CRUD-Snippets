@@ -7,6 +7,8 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background: linear-gradient(to right, #e6f8ff, #ffffff);
+
   
 }
 
