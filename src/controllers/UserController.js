@@ -15,9 +15,10 @@ export class UserController {
   }
 
   /**
+   * Doc.
    *
-   * @param req
-   * @param res
+   * @param {Request} req - The Express request object.
+   * @param {Response} res - The Express response object.
    */
   async registerPost (req, res) {
     try {
@@ -46,31 +47,42 @@ export class UserController {
   }
 
   /**
+   * Doc.
    *
-   * @param req
-   * @param res
+   * @param {Request} req - The Express request object.
+   * @param {Response} res - The Express response object.
    */
   async loginPost (req, res) {
-    const user = await UserSchema.authenticate(req.body.username, req.body.password)
+    try {
+      req.session.regenerate(() => {
 
-    req.session.username = user.username
+      })
+      const user = await UserSchema.authenticate(req.body.username, req.body.password)
 
-    res.redirect('./profile')
+      req.session.username = user.username
+
+      res.redirect('./profile')
+    } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message }
+      res.redirect('./login')
+    }
   }
 
   /**
+   * Doc.
    *
-   * @param req
-   * @param res
+   * @param {Request} req - The Express request object.
+   * @param {Response} res - The Express response object.
    */
   async profile (req, res) {
     res.render('users/profile', { username: req.session.username })
   }
 
   /**
+   * Doc.
    *
-   * @param req
-   * @param res
+   * @param {Request} req - The Express request object.
+   * @param {Response} res - The Express response object.
    */
   async logout (req, res) {
     req.session.destroy()

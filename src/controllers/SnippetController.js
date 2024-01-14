@@ -1,5 +1,4 @@
 import { SnippetSchema } from '../models/SnippetSchema.js'
-import { UserSchema } from '../models/UserSchema.js'
 
 /**
  *
@@ -78,6 +77,7 @@ export class SnippetController {
     }
   }
 
+  // eslint-disable-next-line jsdoc/require-returns
   /**
    * Returns a HTML form for updating a snippet.
    *
@@ -129,6 +129,7 @@ export class SnippetController {
     }
   }
 
+  // eslint-disable-next-line jsdoc/require-returns
   /**
    * Returns a HTML form for deleting a snippet.
    *
@@ -170,14 +171,5 @@ export class SnippetController {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('./delete')
     }
-  }
-
-  /**
-   *
-   * @param snippet
-   * @param currentUser
-   */
-  isAuthorized (snippet, currentUser) {
-    return snippet.user === currentUser
   }
 }
