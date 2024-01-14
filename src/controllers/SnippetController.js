@@ -1,4 +1,5 @@
 import { SnippetSchema } from '../models/SnippetSchema.js'
+import { UserSchema } from '../models/UserSchema.js'
 
 /**
  *
@@ -10,12 +11,11 @@ export class SnippetController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
-   * @param {string} id - The value of the id for the task to load.
+   * @param {string} id - The value of the id for the snippet to load.
    */
-  async loadTaskDocument (req, res, next, id) {
+  async loadSnippetDocument (req, res, next, id) {
     try {
       const snippetDoc = await SnippetSchema.findById(id)
-
       req.doc = snippetDoc
 
       // Next middleware.
@@ -86,10 +86,22 @@ export class SnippetController {
    */
   async update (req, res) {
     try {
+      if (!req.doc) {
+        req.session.flash = { type: 'danger', text: 'Snippet not found.' }
+        return res.redirect('/snippets')
+      }
+
+      // Check if the logged-in user is the same as the user who created the snippet
+      if (req.session.username !== req.doc.user) {
+        req.session.flash = { type: 'danger', text: 'Unauthorized access.' }
+        return res.redirect('/snippets')
+      }
+
+      // Render the update form with the snippet data
       res.render('snippets/update', { viewData: req.doc.toObject() })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
+      res.redirect('.')
     }
   }
 
@@ -101,7 +113,8 @@ export class SnippetController {
    */
   async updatePost (req, res) {
     try {
-      if ('description' in req.body) req.doc.description = req.body.description
+      if ('title' in req.body) req.doc.title = req.body.title
+      if ('code' in req.body) req.doc.code = req.body.code
 
       if (req.doc.isModified()) {
         await req.doc.save()
@@ -147,5 +160,14 @@ export class SnippetController {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('./delete')
     }
+  }
+
+  /**
+   *
+   * @param snippet
+   * @param currentUser
+   */
+  isAuthorized (snippet, currentUser) {
+    return snippet.user === currentUser
   }
 }
