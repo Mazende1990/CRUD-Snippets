@@ -43,4 +43,16 @@ code {
   font-family: 'Consolas', 'Courier New', Courier, monospace
 }
 
+.form-container {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 400px; 
+  margin: auto; 
+}
 
+.form-control {
+  width: 100%; 
+  margin-bottom: 10px
+}
