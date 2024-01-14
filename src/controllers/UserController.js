@@ -42,7 +42,7 @@ export class UserController {
    * @param {Response} res - The Express response object.
    */
   async login (req, res) {
-    res.render('home/login')
+    res.render('users/login')
   }
 
   /**
@@ -51,6 +51,11 @@ export class UserController {
    * @param res
    */
   async loginPost (req, res) {
+    const user = await UserSchema.authenticate(req.body.username, req.body.password)
+    
+    req.session.username = user.username
+    req.session.password = user.password
 
+    res.redirect('.')
   }
 }
