@@ -58,8 +58,12 @@ export class UserController {
     res.redirect('./profile')
   }
 
+  /**
+   *
+   * @param req
+   * @param res
+   */
   async profile (req, res) {
     res.render('users/profile', { username: req.session.username })
   }
-
 }

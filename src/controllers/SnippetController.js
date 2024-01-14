@@ -39,7 +39,7 @@ export class SnippetController {
           .map(snippetDoc => snippetDoc.toObject())
       }
 
-      res.render('snippets/index', { viewData })
+      res.render('snippets/index', { viewData, username: req.session.username })
     } catch (error) {
       next(error)
     }
@@ -63,10 +63,11 @@ export class SnippetController {
    */
   async createPost (req, res) {
     try {
+      const user = req.session.username
       const { title, code } = req.body
 
       await SnippetSchema.create({
-        title, code
+        title, code, user
       })
 
       req.session.flash = { type: 'success', text: 'The snippet was created successfully.' }

@@ -4,6 +4,9 @@
     <tr>
       <th>Title</th>
       <th>Code</th>
+      <% if (username) { %>
+        <th>Actions</th>
+      <% } %>
     </tr>
   </thead>
   <tbody>
@@ -16,11 +19,17 @@
               <pre><%= snippet.code %></pre>
             </div>
           </td>
+          <% if (username) { %>
+            <td>
+              <a href="/snippets/<%= snippet.id %>/update">Update</a>
+              <a href="/snippets/<%= snippet.id %>/delete">Delete</a>
+            </td>
+          <% } %>
         </tr>
       <% } %>
     <% } else { %>
       <tr>
-        <td colspan="2" class="text-center text-danger">
+        <td colspan="3" class="text-center text-danger">
           There are no snippets to display
         </td>
       </tr>

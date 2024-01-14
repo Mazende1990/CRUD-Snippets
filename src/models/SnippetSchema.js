@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
     required: true,
     trim: true,
     minlength: 1
+  },
+  user: {
+    type: String,
+    required: true
   }
 })
 
