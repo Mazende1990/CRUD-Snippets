@@ -66,4 +66,14 @@ export class UserController {
   async profile (req, res) {
     res.render('users/profile', { username: req.session.username })
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  async logout (req, res) {
+    req.session.destroy()
+    res.redirect('/')
+  }
 }

@@ -52,7 +52,7 @@ export class SnippetController {
    * @param {object} res - Express response object.
    */
   async create (req, res) {
-    res.render('snippets/create')
+    res.render('snippets/create', { username: req.session.username })
   }
 
   /**
