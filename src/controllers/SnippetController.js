@@ -84,24 +84,23 @@ export class SnippetController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    */
-  async update (req, res) {
+  async update (req, res, next) {
     try {
       if (!req.doc) {
         req.session.flash = { type: 'danger', text: 'Snippet not found.' }
         return res.redirect('/snippets')
       }
 
-      // Check if the logged-in user is the same as the user who created the snippet
       if (req.session.username !== req.doc.user) {
-        req.session.flash = { type: 'danger', text: 'Unauthorized access.' }
-        return res.redirect('/snippets')
+        const error = new Error('Unauthorized access')
+      error.status = 403
+      throw error
       }
 
-      // Render the update form with the snippet data
       res.render('snippets/update', { viewData: req.doc.toObject() })
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
+      next(error)
     }
   }
 
