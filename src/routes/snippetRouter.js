@@ -1,5 +1,5 @@
 import express from 'express'
-import { SnippetController } from '../controllers/snippetController.js'
+import { SnippetController } from '../controllers/SnippetController.js'
 
 export const router = express.Router()
 
