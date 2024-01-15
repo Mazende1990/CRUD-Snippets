@@ -14,6 +14,7 @@ export class UserController {
     res.render('users/register')
   }
 
+  // eslint-disable-next-line jsdoc/require-returns
   /**
    * Doc.
    *
@@ -23,15 +24,16 @@ export class UserController {
   async registerPost (req, res) {
     try {
       const { username, password } = req.body
-
-      await UserSchema.create({
-        username, password
-      })
-
+      const existingUser = await UserSchema.findOne({ username })
+      if (existingUser) {
+        req.session.flash = { type: 'danger', text: 'Username already taken.' }
+        return res.redirect('./register')
+      }
+      await UserSchema.create({ username, password })
       req.session.flash = { type: 'success', text: 'The user was created successfully.' }
-      res.redirect('.')
+      res.redirect('./login')
     } catch (error) {
-      // req.session.flash = { type: 'danger', text: error.message }
+      req.session.flash = { type: 'danger', text: error.message }
       res.redirect('./register')
     }
   }
