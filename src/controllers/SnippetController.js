@@ -83,23 +83,18 @@ export class SnippetController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async update (req, res, next) {
     try {
-      if (!req.doc) {
-        req.session.flash = { type: 'danger', text: 'Snippet not found.' }
-        return res.redirect('/snippets')
-      }
-
       if (req.session.username !== req.doc.user) {
         const error = new Error('Unauthorized access')
-      error.status = 403
-      throw error
+        error.status = 403
+        throw error
+      } else {
+        res.render('snippets/update', { viewData: req.doc.toObject() })
       }
-
-      res.render('snippets/update', { viewData: req.doc.toObject() })
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
       next(error)
     }
   }
@@ -134,23 +129,19 @@ export class SnippetController {
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
-  async delete (req, res) {
+  async delete (req, res, next) {
     try {
-      if (!req.doc) {
-        req.session.flash = { type: 'danger', text: 'Snippet not found.' }
-        return res.redirect('/snippets')
-      }
-
-      // Check if the logged-in user is the same as the user who created the snippet
       if (req.session.username !== req.doc.user) {
-        req.session.flash = { type: 'danger', text: 'Unauthorized access.' }
-        return res.redirect('/snippets')
+        const error = new Error('Unauthorized access')
+        error.status = 403
+        throw error
+      } else {
+        res.render('snippets/delete', { viewData: req.doc.toObject() })
       }
-      res.render('snippets/delete', { viewData: req.doc.toObject() })
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
+      next(error)
     }
   }
 

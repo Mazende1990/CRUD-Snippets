@@ -63,8 +63,7 @@ export class UserController {
 
       res.redirect('./profile')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('./login')
+      res.redirect('./profile')
     }
   }
 
@@ -73,9 +72,20 @@ export class UserController {
    *
    * @param {Request} req - The Express request object.
    * @param {Response} res - The Express response object.
+   * @param {Function} next - Express next middleware function.
    */
-  async profile (req, res) {
-    res.render('users/profile', { username: req.session.username })
+  async profile (req, res, next) {
+    try {
+      if (!req.session.username) {
+        const error = new Error('User not found')
+        error.status = 404
+        throw error
+      } else {
+        res.render('users/profile', { username: req.session.username })
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 
   /**
