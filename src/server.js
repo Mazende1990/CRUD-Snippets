@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { connectToDatabase } from './config/mongoose.js'
 import { sessionOptions } from './config/sessionOptions.js'
 import { router } from './routes/router.js'
+import helmet from 'helmet'
 
 try {
   // Connect to MongoDB.
@@ -32,6 +33,9 @@ try {
 
   // Set up a morgan logger using the dev format for log entries.
   app.use(logger('dev'))
+
+  // Use Helmet. Protect from XSS attacks!
+  app.use(helmet())
 
   // View engine setup.
   app.set('view engine', 'ejs')
