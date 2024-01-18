@@ -69,7 +69,7 @@ try {
   })
 
   // Register routes.
-  app.use('/', router)
+  app.use(process.env.BASE_URL, router)
 
   // Error handler.
   app.use((err, req, res, next) => {

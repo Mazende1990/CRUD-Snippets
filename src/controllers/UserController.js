@@ -98,6 +98,6 @@ export class UserController {
    */
   async logout (req, res) {
     req.session.destroy()
-    res.redirect('/')
+    res.redirect('../')
   }
 }
